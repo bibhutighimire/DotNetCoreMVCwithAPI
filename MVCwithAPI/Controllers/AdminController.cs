@@ -117,5 +117,25 @@ namespace MVCwithAPI.Controllers
             return createdid;
         }
 
+        public int AddQuantityProduct(int id, int quantity)
+        {
+            int createdid;
+            var target = context.Products.Where(x => x.ID == id).SingleOrDefault();
+            target.Quantity = target.Quantity+ quantity;
+            context.SaveChanges();
+            createdid = target.ID;
+            return createdid;
+        }
+        
+        public int SubtractQuantityProduct(int id, int quantity)
+        {
+            int createdid;
+            var target = context.Products.Where(x => x.ID == id).SingleOrDefault();
+            target.Quantity = target.Quantity - quantity;
+            context.SaveChanges();
+            createdid = target.ID;
+            return createdid;
+        }
+
     }
 }

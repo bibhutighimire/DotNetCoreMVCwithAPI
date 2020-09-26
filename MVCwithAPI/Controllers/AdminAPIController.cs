@@ -29,7 +29,7 @@ namespace MVCwithAPI.Controllers
             adminc.Create(name, quantity, isdiscontinued);  
         }
 
-        [HttpPost("product/DiscontinueProduct")]
+        [HttpPut("product/DiscontinueProduct")]
         public string DiscontinueProduct(int id)
         {
             string response;
@@ -39,5 +39,28 @@ namespace MVCwithAPI.Controllers
             response = "Successfully changed product to DISCONTINUED";
             return response;
         }
+
+        [HttpPut("product/AddQuantityProduct")]
+        public string AddQuantityProduct(int id,int quantity)
+        {
+            string response;
+            Product p = new Product();
+            AdminController adminc = new AdminController();
+            adminc.AddQuantityProduct(id,quantity);
+            response = "Successfully added quantity";
+            return response;
+        }
+
+        [HttpPut("product/SubtractQuantityProduct")]
+        public string SubtractQuantityProduct(int id, int quantity)
+        {
+            string response;
+            Product p = new Product();
+            AdminController adminc = new AdminController();
+            adminc.SubtractQuantityProduct(id, quantity);
+            response = "Successfully subtracted quantity";
+            return response;
+        }
+
     }
 }
