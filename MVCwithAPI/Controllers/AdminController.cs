@@ -10,96 +10,112 @@ namespace MVCwithAPI.Controllers
     public class AdminController : Controller
     {
         ProductContext context = new ProductContext();
-        public ActionResult Index()
-        {
-            return View(context.Products.ToList());
-        }
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Index()
+        //{
+        //    return View(context.Products.ToList());
+        //}
+        //[HttpGet]
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult Create(string name, int quantity, bool isdiscontinued)
+        //[HttpPost]
+        //public ActionResult Create(string name, int quantity, bool isdiscontinued)
+        //{
+        //    Product p = new Product();
+        //    p.Name = name;
+        //    p.Quantity = quantity;
+        //    p.IsDiscontinued = isdiscontinued;
+        //    context.Products.Add(p);
+        //    context.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        //[HttpGet]
+        //public ActionResult Edit(int id)
+        //{
+        //    var target=context.Products.Where(x=>x.ID==id).SingleOrDefault();
+
+        //    Product p = new Product();
+        //    ViewBag.ID = target.ID;
+        //    ViewBag.Name = target.Name;
+        //    ViewBag.Quantity = target.Quantity;
+        //    ViewBag.IsDiscontinued = target.IsDiscontinued;
+
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public ActionResult Edit(Product product)
+        //{
+        //    Product p = new Product();
+        //    var target = context.Products.Where(x => x.ID == product.ID).SingleOrDefault();
+        //    target.Name=product.Name;
+        //    target.Quantity=product.Quantity;
+        //    target.IsDiscontinued=product.IsDiscontinued;
+            
+        //    context.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        //[HttpGet]
+        //public ActionResult Details(int id)
+        //{
+        //    var target = context.Products.Where(x => x.ID == id).SingleOrDefault();
+
+        //    Product p = new Product();
+        //    ViewBag.ID = target.ID;
+        //    ViewBag.Name = target.Name;
+        //    ViewBag.Quantity = target.Quantity;
+        //    ViewBag.IsDiscontinued = target.IsDiscontinued;
+
+        //    return View();
+        //}
+
+        //[HttpGet]
+        //public ActionResult Delete(int id)
+        //{
+        //    var target = context.Products.Where(x => x.ID == id).SingleOrDefault();
+        //    ViewBag.ID = target.ID;
+        //    ViewBag.Name = target.Name;
+        //    ViewBag.Quantity = target.Quantity;
+        //    ViewBag.IsDiscontinued = target.IsDiscontinued;
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public ActionResult Delete(Product product)
+        //{
+        //    var target = context.Products.Where(x => x.ID == product.ID).SingleOrDefault();
+        //    context.Products.Remove(target);
+        //    context.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+
+        public int Create(string name, int quantity, bool isdiscontinued)
         {
+            int createdid;
             Product p = new Product();
             p.Name = name;
             p.Quantity = quantity;
             p.IsDiscontinued = isdiscontinued;
             context.Products.Add(p);
             context.SaveChanges();
-            return RedirectToAction("Index");
+            createdid = p.ID ;
+            return createdid;
         }
 
-        [HttpGet]
-        public ActionResult Edit(int id)
+        public int DiscontinueProduct(int id)
         {
-            var target=context.Products.Where(x=>x.ID==id).SingleOrDefault();
-
-            Product p = new Product();
-            ViewBag.ID = target.ID;
-            ViewBag.Name = target.Name;
-            ViewBag.Quantity = target.Quantity;
-            ViewBag.IsDiscontinued = target.IsDiscontinued;
-
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Edit(Product product)
-        {
-            Product p = new Product();
-            var target = context.Products.Where(x => x.ID == product.ID).SingleOrDefault();
-            target.Name=product.Name;
-            target.Quantity=product.Quantity;
-            target.IsDiscontinued=product.IsDiscontinued;
-            
-            context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public ActionResult Details(int id)
-        {
+            int createdid;
             var target = context.Products.Where(x => x.ID == id).SingleOrDefault();
-
-            Product p = new Product();
-            ViewBag.ID = target.ID;
-            ViewBag.Name = target.Name;
-            ViewBag.Quantity = target.Quantity;
-            ViewBag.IsDiscontinued = target.IsDiscontinued;
-
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Delete(int id)
-        {
-            var target = context.Products.Where(x => x.ID == id).SingleOrDefault();
-            ViewBag.ID = target.ID;
-            ViewBag.Name = target.Name;
-            ViewBag.Quantity = target.Quantity;
-            ViewBag.IsDiscontinued = target.IsDiscontinued;
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Delete(Product product)
-        {
-            var target = context.Products.Where(x => x.ID == product.ID).SingleOrDefault();
-            context.Products.Remove(target);
+            target.IsDiscontinued = true;
             context.SaveChanges();
-            return RedirectToAction("Index");
+            createdid = target.ID;
+            return createdid;
         }
-
-
-        public List<Product> GetAll()
-        {
-            return context.Products.ToList();
-        }
-
-      
 
     }
 }

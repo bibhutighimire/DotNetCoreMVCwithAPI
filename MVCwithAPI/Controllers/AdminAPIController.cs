@@ -13,22 +13,31 @@ namespace MVCwithAPI.Controllers
     public class AdminAPIController : ControllerBase
     {
         //api/AdminAPI/product/all
+        ProductContext context = new ProductContext();
+        //[HttpGet("product/all")]
+        //public ActionResult<IEnumerable<Product>> GetAll()
+        //{
+        //    AdminController controller = new AdminController();
+        //    return controller.GetAll();
+        //}
 
-        [HttpGet("product/all")]
-        public ActionResult<IEnumerable<Product>> GetAll()
+        [HttpPost("product/AddProduct")]
+        public void AddProduct(string name, int quantity, bool isdiscontinued)
         {
-            // This is what we are returning. It gets serialized as JSON if we return an object.
-            AdminController controller = new AdminController();
-            return controller.GetAll();
+            Product p = new Product();
+            AdminController adminc = new AdminController();
+            adminc.Create(name, quantity, isdiscontinued);  
         }
 
-        //[HttpPost("product/create")]
-        //public Product Create(Product product)
-        //{
-        //    // This is what we are returning. It gets serialized as JSON if we return an object.
-        //    AdminController controller = new AdminController();
-        //    return controller.Create(product);
-
-        //}
+        [HttpPost("product/DiscontinueProduct")]
+        public string DiscontinueProduct(int id)
+        {
+            string response;
+            Product p = new Product();
+            AdminController adminc = new AdminController();
+            adminc.DiscontinueProduct(id);
+            response = "Successfully changed product to DISCONTINUED";
+            return response;
+        }
     }
 }
