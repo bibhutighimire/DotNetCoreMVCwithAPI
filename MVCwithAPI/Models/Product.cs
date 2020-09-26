@@ -32,6 +32,8 @@ namespace MVCwithAPI.Models
         [Column("isDiscontinued", TypeName = "boolean")]
         public bool? IsDiscontinued { get; set; }
 
-        
+        //[Required]
+        //[Range(0, int.MaxValue)]
+        //[Column("Quantity", TypeName = "int(10)")]
     }
 }

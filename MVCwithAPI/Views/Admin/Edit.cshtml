@@ -1,0 +1,34 @@
+﻿@model MVCwithAPI.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<p>@ViewBag.Name</p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" action="/Admin/Create">
+            <input type="hidden" name="id" id="id" value="@ViewBag.ID" /><br />
+            Name:<br />
+            <input type="text" name="name" id="name" value="@ViewBag.Name" /><br />
+            IsDiscontinued:<br />
+            <input type="text" name="isdiscontinued" id="isdiscontinued" value="@ViewBag.IsDiscontinued" /><br />
+            Quantity:<br />
+            <input type="text" name="quantity" id="quantity" value="@ViewBag.Quantity" /><br /><br />
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
