@@ -137,5 +137,10 @@ namespace MVCwithAPI.Controllers
             return createdid;
         }
 
+        public List<Product> ShowInventory()
+        {
+             return context.Products.ToList();
+        }
+
     }
 }

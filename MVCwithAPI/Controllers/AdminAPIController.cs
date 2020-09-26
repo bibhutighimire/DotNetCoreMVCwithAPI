@@ -61,6 +61,15 @@ namespace MVCwithAPI.Controllers
             response = "Successfully subtracted quantity";
             return response;
         }
-
+        
+        [HttpGet("product/ShowInventory")]
+        public List<Product> ShowInventory()
+        {
+            Product p = new Product();
+            AdminController adminc = new AdminController();
+            return adminc.ShowInventory();
+            //response = "Here is the list of inventory";
+             //response;
+        }
     }
 }
