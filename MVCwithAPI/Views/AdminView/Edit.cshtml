@@ -11,12 +11,15 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" action="/Admin/Create">
+        <form method="post" action="/AdminView/Create">
             <input type="hidden" name="id" id="id" value="@ViewBag.ID" /><br />
             Name:<br />
             <input type="text" name="name" id="name" value="@ViewBag.Name" /><br />
             IsDiscontinued:<br />
-            <input type="text" name="isdiscontinued" id="isdiscontinued" value="@ViewBag.IsDiscontinued" /><br />
+            <input type='radio' name='isdiscontinued' id="isdiscontinued" value='true' />True <br />
+            <input type='radio' name='isdiscontinued' id="isdiscontinued" value='false'  /> False <br /><br />
+
+          
             Quantity:<br />
             <input type="text" name="quantity" id="quantity" value="@ViewBag.Quantity" /><br /><br />
             <input type="submit" value="Submit" />

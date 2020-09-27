@@ -1,0 +1,40 @@
+﻿@model MVCwithAPI.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form method="post" action="/AdminView/Create">
+            Name:<br />
+            <input type="text" name="name" id="name" /><br />
+            IsDiscontinued:<br />
+            <input type='radio' name='isdiscontinued'  id="isdiscontinued" value='true' />True <br />
+            <input type='radio' name='isdiscontinued'  id="isdiscontinued" value='false' checked /> False <br /><br />
+
+            @*<input type="text" name="isdiscontinued" id="isdiscontinued" /><br />*@
+            Quantity:<br />
+            <input type="text" name="quantity" id="quantity" /><br /><br />
+            <input type="submit" value="Submit" />
+        </form>
+
+
+
+
+
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
