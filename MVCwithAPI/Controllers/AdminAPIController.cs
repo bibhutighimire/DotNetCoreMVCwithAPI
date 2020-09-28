@@ -127,7 +127,7 @@ namespace MVCwithAPI.Controllers
             {
                 AdminController adminc = new AdminController();
 
-                Product product = context.Products.Find(id);
+                Product product = context.Products.Find(Convert.ToInt32(id));
                 if (product == null)
                 {
                     return StatusCode((int)HttpStatusCode.Forbidden, "Hey Buddy! The provided ID is invalid and does not exist in database record..");
@@ -143,15 +143,25 @@ namespace MVCwithAPI.Controllers
                     return StatusCode((int)HttpStatusCode.Forbidden, "Please don't put 0 in quantity. i need valid number to subtract from stock. help me! ");
                 }
 
+                if (Convert.ToInt32(quantity) < 0)
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, "Please don't put negative number in quantity. i need valid number to subtract from stock. help me! ");
+                }
+
 
                 else
                 {
                     if (product.IsDiscontinued == true)
                     {
+                        adminc.SubtractQuantityProduct(Convert.ToInt32(id), Convert.ToInt32(quantity));
                         return StatusCode((int)HttpStatusCode.OK, "Since we no longer sell this product, IT WILL BE FINAL SALE! NO REFUND OR EXCHANGE ");
                     }
-                    adminc.SubtractQuantityProduct(Convert.ToInt32(id), Convert.ToInt32(quantity));
-                    return StatusCode((int)HttpStatusCode.OK, "Successfully added quantity");
+                    else
+                    {
+                        adminc.SubtractQuantityProduct(Convert.ToInt32(id), Convert.ToInt32(quantity));
+                        return StatusCode((int)HttpStatusCode.OK, "Successfully subtracted the quantity");
+                    }
+                   
 
                 }
             }
