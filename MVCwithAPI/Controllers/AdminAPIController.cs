@@ -17,10 +17,32 @@ namespace MVCwithAPI.Controllers
 
         ProductContext context = new ProductContext();
         [HttpPost("product/AddProduct")]
-        public void AddProduct(string name, int quantity, bool isdiscontinued)
+        public ActionResult AddProduct(string name, string quantity, string isdiscontinued)
         {
-            AdminController adminc = new AdminController();
-            adminc.Create(name, quantity, isdiscontinued);  
+            ActionResult response;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank Name or NULL Name or White Space is NOT ACCEPTED.");
+            }
+
+
+             if (string.IsNullOrWhiteSpace(quantity))
+            {
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank quantity or NULL quantity or White Space is NOT ACCEPTED.");
+            }
+
+            if (string.IsNullOrWhiteSpace(isdiscontinued))
+            {
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank isdiscontinued or NULL isdiscontinued or White Space is NOT ACCEPTED.");
+            }
+
+            else
+            {
+                AdminController adminc = new AdminController();
+                adminc.AddProduct(name, Convert.ToInt32(quantity), Convert.ToBoolean(isdiscontinued));
+                response = Ok(new { message = $"Successfully added new record to database with Name: {name}, Quantity: {quantity} and IsDiscontinued: {isdiscontinued}." });
+            }
+            return response;
         }
 
         [HttpPut("product/DiscontinueProduct")]

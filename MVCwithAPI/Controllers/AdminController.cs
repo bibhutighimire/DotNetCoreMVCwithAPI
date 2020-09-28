@@ -12,7 +12,7 @@ namespace MVCwithAPI.Controllers
     {
         ProductContext context = new ProductContext();
 
-        public int Create(string name, int quantity, bool isdiscontinued)
+        public int AddProduct(string name, int quantity, bool isdiscontinued)
         {
             
             int createdid;
