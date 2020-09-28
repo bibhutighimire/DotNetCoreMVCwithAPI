@@ -66,7 +66,8 @@ namespace MVCwithAPI.Controllers
 
         public List<Product> ShowInventory()
         {
-             return context.Products.ToList();
+            List<Product> products = context.Products.Where(x => x.IsDiscontinued == false).ToList();
+             return products;
         }
     }
 }
