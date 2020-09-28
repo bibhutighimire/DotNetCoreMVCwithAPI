@@ -24,97 +24,138 @@ namespace MVCwithAPI.Controllers
         }
 
         [HttpPut("product/DiscontinueProduct")]
-        public ActionResult DiscontinueProduct(int id)
+        public ActionResult DiscontinueProduct(string id)
         {
-            AdminController adminc = new AdminController();
-            ActionResult response;
-
-            Product product = context.Products.Find(id);
-            if (product == null)
+            
+            if (string.IsNullOrWhiteSpace(id))
             {
-                return StatusCode((int)HttpStatusCode.Forbidden, "Hey Buddy! The provided ID is invalid and does not exist in database record..");
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank ID or NULL ID or White Space is NOT ACCEPTED.");
             }
-           
             else
             {
-               
-                try
+                AdminController adminc = new AdminController();
+                ActionResult response;
+                Product product = context.Products.Find(Convert.ToInt32(id));
+                if (product == null)
                 {
-                    adminc.DiscontinueProduct(id);
-                    response = Ok(new { message = $"Successfully disconnected the person with ID {id}. So now IsDisconnected property will be TRUE." });
+                    return StatusCode((int)HttpStatusCode.Forbidden, "Hey Buddy! The provided ID is invalid and does not exist in database record..");
                 }
-                catch
+
+                else
                 {
-                    response = NotFound(new { error = $"No person at ID {id} could be found." });
+
+                    try
+                    {
+                        adminc.DiscontinueProduct(Convert.ToInt32(id));
+                        response = Ok(new { message = $"Successfully disconnected the person with ID {id}. So now IsDisconnected property will be TRUE." });
+                    }
+                    catch
+                    {
+                        response = NotFound(new { error = $"No person at ID {id} could be found." });
+                    }
+
                 }
-                
+
+
+                return response;
             }
-
-
-            return response;
+           
         }
 
         [HttpPut("product/AddQuantityProduct")]
-        public ActionResult AddQuantityProduct(int id,int quantity)
+        public ActionResult AddQuantityProduct(string id,string quantity)
         {
-            AdminController adminc = new AdminController();
 
-            Product product = context.Products.Find(id);
-            if (product == null)
+
+            if (string.IsNullOrWhiteSpace(id))
             {
-                return StatusCode((int)HttpStatusCode.Forbidden, "Hey Buddy! The provided ID is invalid and does not exist in database record..");
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank ID or NULL ID or White Space is NOT ACCEPTED.");
             }
 
-            if (quantity < 0 || quantity==0)
+
+            if (string.IsNullOrWhiteSpace(quantity))
             {
-                return StatusCode((int)HttpStatusCode.Forbidden, "The quantity to be added should not be negative value or zero. ");
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank quantity or NULL quantity or White Space is NOT ACCEPTED.");
             }
 
-            if (product.IsDiscontinued== true )
-            {
-                return StatusCode((int)HttpStatusCode.Forbidden, "The quantity can not be added to product that has been discontinued. Sorry !! ");
-            }
+
+
             else
             {
-                adminc.AddQuantityProduct(id, quantity);
-                 return StatusCode((int)HttpStatusCode.OK, "Successfully added quantity"); 
-                
+                AdminController adminc = new AdminController();
+
+                Product product = context.Products.Find(Convert.ToInt32(id));
+                if (product == null)
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, "Hey Buddy! The provided ID is invalid and does not exist in database record..");
+                }
+
+                if (Convert.ToInt32(quantity) < 0 || Convert.ToInt32(quantity) == 0)
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, "The quantity to be added should not be negative value or zero. ");
+                }
+
+                if (product.IsDiscontinued == true)
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, "The quantity can not be added to product that has been discontinued. Sorry !! ");
+                }
+                else
+                {
+                    adminc.AddQuantityProduct(Convert.ToInt32(id), Convert.ToInt32(quantity));
+                    return StatusCode((int)HttpStatusCode.OK, "Successfully added quantity");
+
+                }
             }
+           
             
         }
 
         [HttpPut("product/SubtractQuantityProduct")]
-        public ActionResult SubtractQuantityProduct(int id, int quantity)
+        public ActionResult SubtractQuantityProduct(string id, string quantity)
         {
-            AdminController adminc = new AdminController();
-
-            Product product = context.Products.Find(id);
-            if (product == null)
+            if (string.IsNullOrWhiteSpace(id))
             {
-                return StatusCode((int)HttpStatusCode.Forbidden, "Hey Buddy! The provided ID is invalid and does not exist in database record..");
-            }
-            int qtyindb = Convert.ToInt32(product.Quantity);
-            int qty = Convert.ToInt32(quantity);
-            if (quantity > product.Quantity )
-            {
-                return StatusCode((int)HttpStatusCode.Forbidden, $"sorry the quantity in stock is less than the quantity you are trying to add. Quantity in Stock : {qtyindb} and you tried subtracting {quantity} ...do the maths yourself and be logical");
-            }
-            if (quantity == 0)
-            {
-                return StatusCode((int)HttpStatusCode.Forbidden, "Please don't put 0 in quantity. i need valid number to subtract from stock. help me! ");
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank ID or NULL ID or White Space is NOT ACCEPTED.");
             }
 
-           
+
+            if (string.IsNullOrWhiteSpace(quantity))
+            {
+                return StatusCode((int)HttpStatusCode.Forbidden, "Blank quantity or NULL quantity or White Space is NOT ACCEPTED.");
+            }
             else
             {
-                if (product.IsDiscontinued == true)
-                {
-                    return StatusCode((int)HttpStatusCode.OK, "Since we no longer sell this product, IT WILL BE FINAL SALE! NO REFUND OR EXCHANGE ");
-                }
-                adminc.SubtractQuantityProduct(id, quantity);
-                return StatusCode((int)HttpStatusCode.OK, "Successfully added quantity");
+                AdminController adminc = new AdminController();
 
+                Product product = context.Products.Find(id);
+                if (product == null)
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, "Hey Buddy! The provided ID is invalid and does not exist in database record..");
+                }
+                int qtyindb = Convert.ToInt32(product.Quantity);
+                int qty = Convert.ToInt32(quantity);
+                if (Convert.ToInt32(quantity) > product.Quantity)
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, $"sorry the quantity in stock is less than the quantity you are trying to add. Quantity in Stock : {qtyindb} and you tried subtracting {quantity} ...do the maths yourself and be logical");
+                }
+                if (Convert.ToInt32(quantity) == 0)
+                {
+                    return StatusCode((int)HttpStatusCode.Forbidden, "Please don't put 0 in quantity. i need valid number to subtract from stock. help me! ");
+                }
+
+
+                else
+                {
+                    if (product.IsDiscontinued == true)
+                    {
+                        return StatusCode((int)HttpStatusCode.OK, "Since we no longer sell this product, IT WILL BE FINAL SALE! NO REFUND OR EXCHANGE ");
+                    }
+                    adminc.SubtractQuantityProduct(Convert.ToInt32(id), Convert.ToInt32(quantity));
+                    return StatusCode((int)HttpStatusCode.OK, "Successfully added quantity");
+
+                }
             }
+           
         }
         
         [HttpGet("product/ShowInventory")]

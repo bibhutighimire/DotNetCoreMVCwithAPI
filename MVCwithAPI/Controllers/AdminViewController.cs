@@ -46,15 +46,15 @@ namespace MVCwithAPI.Controllers
             return View();
         }
 
-        [HttpPut]
-        public ActionResult Edit(Product product)
+        [HttpPost]
+        public ActionResult Edit(int id, string name, int quantity,  bool isdiscontinued)
         {
-            Product p = new Product();
-            var target = context.Products.Where(x => x.ID == product.ID).SingleOrDefault();
-            target.Name = product.Name;
-            target.Quantity = product.Quantity;
-            target.IsDiscontinued = product.IsDiscontinued;
-            ViewBag.checkedvalue= product.IsDiscontinued;
+            
+            var target = context.Products.Where(x => x.ID == id).Single();
+            target.Name = name;
+            target.Quantity = quantity;
+            target.IsDiscontinued = isdiscontinued;
+           // ViewBag.checkedvalue= product.IsDiscontinued;
             context.SaveChanges();
             return RedirectToAction("Index");
         }
